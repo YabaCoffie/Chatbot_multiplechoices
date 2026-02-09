@@ -38,7 +38,7 @@ if user_prompt is not None :
         )
     else:
         llm = ChatOpenAI(
-            model = "gpt-3.5-turbo",
+            model = "gpt-4.1-2025-04-14",
             temperature = 0.0,
         )
 
