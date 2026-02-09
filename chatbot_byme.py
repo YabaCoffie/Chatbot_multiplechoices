@@ -49,7 +49,7 @@ if user_prompt :
     
     
     response = llm.invoke(
-        input=[{"role":"system", "content" : "You are a helpful assistant"},*st.session_state.chat_history]
+        [{"role":"system", "content" : "You are a helpful assistant"},*st.session_state.chat_history]
     )
     
     assistant_response = response.content
