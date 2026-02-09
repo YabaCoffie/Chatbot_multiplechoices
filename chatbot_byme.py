@@ -25,18 +25,18 @@ for message in st.session_state.chat_history :
 
 user_prompt = st.chat_input("Quel modèle souhaitez vous utiliser ? ")
 
-if user_prompt.lower().split() == "groq":
+if user_prompt.lower() == "groq":
     llm = ChatGroq(
         model = "llama-3.3-70b-versatile",
         temperature = 0.0,
     )
-elif user_prompt.lower().split() == "genai":
-    llm = ChatGroq(
+elif user_prompt.lower() == "gemini":
+    llm = ChatGoogleGenerativeAI(
         model = 'gemini-2.5-flash-lite',
         temperature = 0.0,
     )
-elif user_prompt.lower().split() == "openai":
-    llm = ChatGroq(
+elif user_prompt.lower() == "openai":
+    llm = ChatOpenAI(
         model = "gpt-3.5-turbo",
         temperature = 0.0,
     )
@@ -47,7 +47,7 @@ if user_prompt :
     
     
     response = llm.invoke(
-        input({"role":"system", "content" : "You are a helpful assistant"})
+        input=[{"role":"system", "content" : "You are a helpful assistant"},*st.session_state.chat_history]
     )
     
     assistant_response = response.content
