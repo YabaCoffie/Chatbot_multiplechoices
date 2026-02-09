@@ -25,28 +25,19 @@ for message in st.session_state.chat_history :
 
 user_prompt = st.chat_input("Quel modèle souhaitez vous utiliser ? ")
 
-if user_prompt is not None :
-    if user_prompt.lower() == "groq":
-        llm = ChatGroq(
-            model = "llama-3.3-70b-versatile",
-            temperature = 0.0,
-        )
-    elif user_prompt.lower() == "gemini":
-        llm = ChatGoogleGenerativeAI(
-            model = 'gemini-2.5-flash-lite',
-            temperature = 0.0,
-        )
-    else:
-        llm = ChatOpenAI(
-            model = "gpt-4.1-2025-04-14",
-            temperature = 0.0,
-        )
 
 
 if user_prompt : 
     st.chat_message("user").markdown(user_prompt)
     st.session_state.chat_history.append({"role":"user","content":user_prompt})
     
+    # 2. On définit le modèle selon ce que l'utilisateur a écrit
+    if "groq" in user_prompt.lower():
+        llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0)
+    elif "gemini" in user_prompt.lower():
+        llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
+    else:
+        llm = ChatOpenAI(model="gpt-4o", temperature=0)
     
     response = llm.invoke(
         [{"role":"system", "content" : "You are a helpful assistant"},*st.session_state.chat_history]
