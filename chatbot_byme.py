@@ -35,7 +35,7 @@ for message in st.session_state.chat_history :
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-user_prompt = st.chat_input("Quel modèle souhaitez vous utiliser ? ")
+user_prompt = st.chat_input("Quelle est votre question ?")
 
 
 
