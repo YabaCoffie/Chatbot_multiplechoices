@@ -22,7 +22,12 @@ if provider == "OpenAI":
     llm = ChatOpenAI(model=model_name, temperature=0)
 elif provider == "Gemini":
     model_name = st.selectbox("Choisir le modèle", ["gemini-1.5-flash", "gemini-1.5-pro"])
-    llm = ChatGoogleGenerativeAI(model=model_name, temperature=0)
+    llm = ChatGoogleGenerativeAI(
+        model=model_name, 
+        temperature=0,
+        system_instruction = "You are a helpful assistant"
+        )
+
 elif provider == "Groq":
     model_name = st.selectbox("Choisir le modèle", ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"])
     llm = ChatGroq(model=model_name, temperature=0)
@@ -43,10 +48,11 @@ if user_prompt :
     st.chat_message("user").markdown(user_prompt)
     st.session_state.chat_history.append({"role":"user","content":user_prompt})
 
-    
-    response = llm.invoke(
-        [{"role":"system", "content" : "You are a helpful assistant"},*st.session_state.chat_history]
-    )
+    if provider == "Gemini" : 
+        messages = list(st.session_state.chat_history)
+    else :
+        messages =  [{"role":"system", "content" : "You are a helpful assistant"},*st.session_state.chat_history]
+    response = llm.invoke(messages)
     
     assistant_response = response.content
     
